@@ -81,7 +81,7 @@ class ProjectTest(unittest.TestCase):
     def test_failure_when_project_root_exists_and_is_a_file(self):
         project_root = 'sampleproject2'
         try:
-            open(project_root, 'w').close()
+            open(project_root, 'wb').close()
             with self.assertRaises(RopeError):
                 Project(project_root)
         finally:
@@ -389,7 +389,7 @@ class ProjectTest(unittest.TestCase):
     def test_file_encoding_reading(self):
         sample_file = self.project.root.create_file('my_file.txt')
         contents = u'# -*- coding: utf-8 -*-\n' \
-            '#\N{LATIN SMALL LETTER I WITH DIAERESIS}\n'
+            u'#\N{LATIN SMALL LETTER I WITH DIAERESIS}\n'
         file = open(sample_file.real_path, 'w')
         file.write(contents.encode('utf-8'))
         file.close()
@@ -410,7 +410,7 @@ class ProjectTest(unittest.TestCase):
 
     def test_encoding_declaration_in_the_second_line(self):
         sample_file = self.project.root.create_file('my_file.txt')
-        contents = '\n# -*- coding: latin-1 -*-\n\xa9\n'
+        contents = b'\n# -*- coding: latin-1 -*-\n\xa9\n'
         file = open(sample_file.real_path, 'wb')
         file.write(contents)
         file.close()
@@ -418,7 +418,7 @@ class ProjectTest(unittest.TestCase):
 
     def test_read_bytes(self):
         sample_file = self.project.root.create_file('my_file.txt')
-        contents = '\n# -*- coding: latin-1 -*-\n\xa9\n'
+        contents = b'\n# -*- coding: latin-1 -*-\n\xa9\n'
         file = open(sample_file.real_path, 'wb')
         file.write(contents)
         file.close()
