@@ -389,9 +389,9 @@ class ProjectTest(unittest.TestCase):
     def test_file_encoding_reading(self):
         sample_file = self.project.root.create_file('my_file.txt')
         contents = u'# -*- coding: utf-8 -*-\n' \
-            u'#\N{LATIN SMALL LETTER I WITH DIAERESIS}\n'
+            '#\N{LATIN SMALL LETTER I WITH DIAERESIS}\n'
         file = open(sample_file.real_path, 'w')
-        file.write(contents.encode('utf-8'))
+        file.write(contents)
         file.close()
         self.assertEquals(contents, sample_file.read())
 

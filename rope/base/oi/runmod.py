@@ -1,10 +1,12 @@
+import six
+
 try:
     execfile
 except NameError:
-    def execfile(fn, global_vars, local_vars):
+    def execfile(fn, global_vars):
         with open(fn) as f:
             code = compile(f.read(), fn, 'exec')
-            exec(code, global_vars, local_vars)
+            exec(code, global_vars)
 
 
 def __rope_start_everything():
@@ -136,7 +138,7 @@ def __rope_start_everything():
                 return ('unknown',)
 
         def _get_persisted_builtin(self, object_):
-            if isinstance(object_, (str, unicode)):
+            if isinstance(object_, six.string_types):
                 return ('builtin', 'str')
             if isinstance(object_, list):
                 holding = None
@@ -182,7 +184,7 @@ def __rope_start_everything():
                 return self._get_persisted_code(object_.__func__.__code__)
             if isinstance(object_, types.ModuleType):
                 return self._get_persisted_module(object_)
-            if isinstance(object_, (str, unicode, list, dict, tuple, set)):
+            if isinstance(object_, (six.string_types, list, dict, tuple, set)):
                 return self._get_persisted_builtin(object_)
             if isinstance(object_, type):
                 return self._get_persisted_class(object_)
